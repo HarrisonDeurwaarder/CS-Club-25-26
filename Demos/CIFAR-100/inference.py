@@ -29,6 +29,7 @@ def main() -> None:
     with torch.no_grad():
         img, _ = dataset[randint(0, len(dataset)-1)]
         PIL.ImageShow
+        # THIS IS NOT YET FINISHED
     
     
 if __name__ == '__main__':
