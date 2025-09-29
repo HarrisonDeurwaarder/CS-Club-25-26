@@ -4,7 +4,7 @@ from random import randint
 
 
 WINDOW = (1000, 500)
-PIPE_GAP = 150
+PIPE_GAP = 180
 PIPE_SPEED = 5
 
 # Colors
@@ -53,14 +53,14 @@ class Bird:
         self.vel = 0.0
         
     def jump(self,
-             power: float = 7.0,) -> None:
+             power: float = 10.0,) -> None:
         '''
         Updates the bird's velocity to account for a jump
         '''
         self.vel = power
     
     def step(self,
-             gravity: float = 0.2) -> None:
+             gravity: float = 0.4) -> None:
         '''
         Idly updates the bird's velocity and its position
         '''
