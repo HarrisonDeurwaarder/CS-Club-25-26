@@ -103,9 +103,18 @@ def main() -> None:
     screen = pg.display.set_mode(WINDOW,)
     pg.display.set_caption('Flappy Bird Game',)
     
-    # Set up the playable character and the list of pipes
+    # Set up the playable character
     bird = Bird()
-    pipes: list[Pipe] = []
+    
+    
+    '''
+    Edit number 1
+    
+    Make an EMPTY list to store pipes (called it 'pipes')
+    Every time a new pipe spawns, we will add it to this list!
+    After it gets out of range, we delete it!
+    '''
+    
     
     # Handle delta time
     clock = pg.time.Clock()
@@ -113,8 +122,17 @@ def main() -> None:
     # --- Game Loop --- #
     count = 0
     while True:
+        '''
+        Edit number 3
+        
+        Pygame requires us to loop through all of the events going on right now, so let's do that!
+        The collection you'll be iterating through is called 'pg.event.get()' (that can be the "list" you iterate through)
+        
+        Let's say we call every event in pg.event.get() "event"
+        '''
         # Loop through all of the events (e.g. buttons, keys, mouse, etc)
-        for event in pg.event.get():
+        
+        # REPLACE THIS COMMENT WITH THE LOOP
             # If the user quits the window
             if event.type == pg.QUIT:
                 pg.quit()
@@ -123,9 +141,20 @@ def main() -> None:
             elif event.type == pg.MOUSEBUTTONDOWN:
                 bird.jump()
         
-        # Frequently add new pipes
-        if count % 60 == 0:
-            pipes.append(Pipe(randint(0, WINDOW[1] - PIPE_GAP)))
+        
+        '''
+        Edit number 2
+        
+        We want to add a new pipe when the counter variable 'count' is divisible by 60
+        This means a new pipe will be added every second (you can change the frequency if you'd like!)
+        
+        Hint: use the modulo operator to calculate remainder of dividing two numbers
+        What would the remainder be if a number is divisible by another?
+        
+        Then, append this long value expression to 'pipes' to create a new one at a random position:
+        Pipe(randint(0, WINDOW[1] - PIPE_GAP))
+        '''
+        
         
         # Fill the background
         screen.fill(BLUE,)
