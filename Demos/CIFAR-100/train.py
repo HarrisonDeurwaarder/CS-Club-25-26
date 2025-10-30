@@ -57,35 +57,46 @@ class ImageDataset(Dataset):
             self.transform(img),
             label,
         )
+      
+        
+def main() -> None:
+    '''
+    Main function
+    '''
+    model: CNN = CNN()
+    optimizer: optim.Adam = optim.Adam(model.parameters())
+    criterion: nn.CrossEntropyLoss = nn.CrossEntropyLoss()
+
+    # Data preparation
+    data = load_dataset('cifar100') # DatasetDict with 'train' (50k) and 'test' (10k)
+    dataset = ImageDataset(data['train'])
+    dataloader = DataLoader(dataset, batch_size=64, shuffle=True)
+
+    # Info about dataset/training
+    device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+    print(
+        f'\nSample: {data["train"][0]}',
+        f'Classes: {len(set(data["train"]["fine_label"]))}',
+        f'Device: {device}',
+        sep='\n'
+    )
+
+    model.to(device)
+    # Training loop
+    for epoch in range(16):
+        for img, label in dataloader:
+            # Forward pass
+            logits = model(img.to(device))
+            # Backward pass
+            optimizer.zero_grad()
+            loss = criterion(logits, label.to(device))
+            loss.backward()
+            optimizer.step()
+        print(f'Epoch #{epoch+1} done!')
+        # Save the model at every epoch
+        torch.save(model.state_dict(), 'model.pth')
         
 
-model: CNN = CNN()
-optimizer: optim.Adam = optim.Adam(model.parameters())
-criterion: nn.CrossEntropyLoss = nn.CrossEntropyLoss()
-
-# Data preparation
-data = load_dataset('cifar100') # DatasetDict with 'train' (50k) and 'test' (10k)
-dataset = ImageDataset(data['train'])
-dataloader = DataLoader(dataset, batch_size=64, shuffle=True)
-
-# Info about dataset/training
-device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
-print(
-    f'\nSample: {data["train"][0]}',
-    f'Classes: {len(set(data["train"]["fine_label"]))}',
-    f'Device: {device}',
-    sep='\n'
-)
-
-model.to(device)
-# Training loop
-for epoch in range(16):
-    for img, label in dataloader:
-        # Forward pass
-        logits = model(img.to(device))
-        # Backward pass
-        optimizer.zero_grad()
-        loss = criterion(logits, label.to(device))
-        loss.backward()
-        optimizer.step()
-    print(f'Epoch #{epoch+1} done!')
+# If this file is run, then train the model
+if __name__ == '__main__':
+    main()

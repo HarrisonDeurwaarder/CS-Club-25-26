@@ -4,7 +4,7 @@ from random import randint
 import math
 
 
-WINDOW = (1800, 900)
+WINDOW = (1500, 700)
 PIPE_GAP = 350
 PIPE_SPEED = 5
 
