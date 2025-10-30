@@ -124,7 +124,7 @@ def main() -> None:
                 bird.jump()
         
         # Frequently add new pipes
-        if count % 70 == 0:
+        if count % 60 == 0:
             pipes.append(Pipe(randint(0, WINDOW[1] - PIPE_GAP)))
         
         # Fill the background
@@ -156,7 +156,7 @@ def main() -> None:
         pg.display.flip()
         
         # Limit update rate to 80fps
-        clock.tick(80)
+        clock.tick(60)
         
         count += 1
         
